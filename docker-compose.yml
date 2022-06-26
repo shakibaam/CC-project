@@ -1,0 +1,29 @@
+version: '3'
+services:
+    web:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8080:8080"
+        depends_on:
+            - mongo
+        environment:
+
+            PORT: 8080
+            MONGO_DATABASE: notesDB
+            MONGO_USER: accountAdmin01
+            MONGO_PASS: shakiba2000
+            MONGO_HOSTNAME: mongodb
+            EXPIRE : 120
+
+    mongo:
+        container_name: mongo
+        image: mongo
+        volumes:
+          - ./data:/data/db
+        ports:
+          - "27017:27017"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: accountAdmin01
+            MONGO_INITDB_ROOT_PASSWORD: shakiba2000

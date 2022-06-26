@@ -1,0 +1,7 @@
+{
+  "DB_HOST": "localhost",
+  "PORT": 8080,
+  "EXPIRE": 30 ,
+  "CONFIG_MONGODB_USERNAME" : "accountAdmin01" ,
+  "CONFIG_MONGODB_ADMINPASSWORD" :  "shakiba2000"
+}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: note-config
+data:
+  config.json: |
+    {
+      "PORT" : 8080,
+      "EXPIRE":5,
+      "DB_HOST" : "mongodb-service"
+    }
