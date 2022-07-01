@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb-deployment
+spec:
+  serviceName: mongodb-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: mongodb
+        image: mongo
+        env:
+        command:
+          - "mongod"
+          - "--bind_ip"
+          - "0.0.0.0"
+          - "--replSet"
+          - "MainRepSet"
+        resources:
+          requests:
+            cpu: 1
+            memory: 1000Mi
+
+        ports:
+        - name: mongo-port
+          containerPort: 27017
+
+        volumeMounts:
+        - name: mongo-persistent-storage
+          mountPath: /data/db
+
+      volumes:
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: mongo-persistent-storage

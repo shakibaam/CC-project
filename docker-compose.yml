@@ -1,29 +1,38 @@
-version: '3'
+# https://hub.docker.com/_/mongo
+version: '3.8'
+
 services:
-    web:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        ports:
-            - "8080:8080"
-        depends_on:
-            - mongo
-        environment:
+    mongo-express:
+      build: .
+      restart: unless-stopped
+      ports:
+        - 8081:8081
+      environment:
+        CONFIG_MONGODB_USERNAME: accountAdmin01
+        CONFIG_MONGODB_ADMINPASSWORD: shakiba2000
+        DB_HOST : localhost
+        PORT : 8081
+        EXPIRE: 30
 
-            PORT: 8080
-            MONGO_DATABASE: notesDB
-            MONGO_USER: accountAdmin01
-            MONGO_PASS: shakiba2000
-            MONGO_HOSTNAME: mongodb
-            EXPIRE : 120
 
-    mongo:
-        container_name: mongo
-        image: mongo
-        volumes:
-          - ./data:/data/db
-        ports:
-          - "27017:27017"
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: accountAdmin01
-            MONGO_INITDB_ROOT_PASSWORD: shakiba2000
+      depends_on:
+        - mongodb
+
+
+    mongodb:
+      image: mongo
+      restart: unless-stopped
+#      command: mongod --auth
+      ports:
+        - 27017:27017
+      volumes:
+        - ./data:/data/db
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: accountAdmin01
+        MONGO_INITDB_ROOT_PASSWORD: shakiba2000
+        MONGO_INITDB_DATABASE : notesDB
+        MONGODB_DATA_DIR: /data/db
+        MONDODB_LOG_DIR: /dev/null
+
+
+
